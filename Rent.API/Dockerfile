@@ -6,6 +6,9 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Rent.API/Rent.API.csproj", "Rent.API/"]
+COPY ["Rent.BL/Rent.BL.csproj", "Rent.BL/"]
+COPY ["Rent.DAL/Rent.DAL.csproj", "Rent.DAL/"]
+COPY ["Rent.Domain/Rent.Domain.csproj", "Rent.Domain/"]
 RUN dotnet restore "Rent.API/Rent.API.csproj"
 COPY . .
 WORKDIR "/src/Rent.API"
