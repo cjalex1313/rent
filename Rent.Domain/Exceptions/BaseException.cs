@@ -4,6 +4,7 @@ public class BaseException : Exception
 {
     public int StatusCode { get; set; }
     public string ErrorMessage { get; set; } = "";
+    public List<string> Errors { get; set; }
 
     public BaseException() : base()
     {

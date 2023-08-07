@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Rent.Domain.Exceptions.Auth;
 
 namespace Rent.BL.Auth;
@@ -7,20 +6,76 @@ namespace Rent.BL.Auth;
 public class AuthService : IAuthService
 {
     private readonly UserManager<IdentityUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly IConfiguration _configuration;
 
-    public AuthService(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+    public AuthService(UserManager<IdentityUser> userManager)
     {
         _userManager = userManager;
-        _roleManager = roleManager;
-        _configuration = configuration;
     }
 
     public async Task RegisterUser(string username, string email, string password)
     {
-        // check user exists
-        var emailExists  = await _userManager.FindByEmailAsync(email);
+        await CheckIfUserExists(username, email);
+        var identityUser = await AddUser(username, email, password);
+        await AddRoleToUser(identityUser, "User");
+    }
+    
+    public async Task RegisterAdmin(string adminPassword, string adminEmail)
+    {
+        var admin = await _userManager.FindByNameAsync("admin");
+        if (admin == null)
+        {
+            var identityAdmin = await AddUser("admin", adminEmail, adminPassword);
+            await AddRoleToUser(identityAdmin, "Admin");
+        }
+        else
+        {
+            admin.Email = adminEmail;
+            admin.EmailConfirmed = true;
+            await _userManager.UpdateAsync(admin);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(admin);
+            var result = await _userManager.ResetPasswordAsync(admin, token, adminPassword);
+            if (!result.Succeeded)
+            {
+                throw new Exception("Error while setting admin password");
+            }
+
+            var roles = await _userManager.GetRolesAsync(admin);
+            if (!roles.Contains("Admin"))
+            {
+                await _userManager.AddToRoleAsync(admin, "Admin");
+            }
+        }
+    }
+
+    private async Task AddRoleToUser(IdentityUser identityUser, string role)
+    {
+        var roleResult = await _userManager.AddToRoleAsync(identityUser, role);
+        if (!roleResult.Succeeded)
+        {
+            throw new UserCreationException(roleResult.Errors.Select(e => e.Description).ToList());
+        }
+    }
+
+    private async Task<IdentityUser> AddUser(string username, string email, string password)
+    {
+        var identityUser = new IdentityUser()
+        {
+            UserName = username,
+            Email = email,
+            SecurityStamp = Guid.NewGuid().ToString(),
+            EmailConfirmed = true
+        };
+        var result = await _userManager.CreateAsync(identityUser, password);
+        if (!result.Succeeded)
+        {
+            throw new UserCreationException(result.Errors.Select(e => e.Description).ToList());
+        }
+        return identityUser;
+    }
+
+    private async Task CheckIfUserExists(string username, string email)
+    {
+        var emailExists = await _userManager.FindByEmailAsync(email);
         if (emailExists != null)
         {
             throw new EmailAlreadyExistsException(email);
@@ -31,8 +86,5 @@ public class AuthService : IAuthService
         {
             throw new UsernameAlreadyExistsException(username);
         }
-        // Add the user to the database
-
-        // Assign a role
     }
 }

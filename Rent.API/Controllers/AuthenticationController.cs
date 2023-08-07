@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Rent.API.Models.Auth;
+using Rent.API.Models.Base;
 using Rent.BL.Auth;
 
 namespace Rent.API.Controllers;
@@ -19,6 +20,6 @@ public class AuthenticationController : ControllerBase
     public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
     {
         await _authService.RegisterUser(request.Username, request.Email, request.Password);
-        return Ok();
+        return Ok(new BaseResponse());
     }
 }
