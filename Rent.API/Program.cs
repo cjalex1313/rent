@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Rent.API.Middleware;
 using Rent.BL;
 using Rent.DAL;
 
@@ -36,6 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthorization();
 

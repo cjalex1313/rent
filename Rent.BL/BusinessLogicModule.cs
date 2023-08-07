@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Rent.BL.User;
+using Rent.BL.Auth;
 using Rent.DAL;
 
 namespace Rent.BL;
@@ -11,6 +11,6 @@ public static class BusinessLogicModule
         IConfiguration builderConfiguration)
     {
         services.AddDataAccessModule(builderConfiguration);
-        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IAuthService, AuthService>();
     }
 }
