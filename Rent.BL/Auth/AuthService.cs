@@ -1,4 +1,10 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Rent.Domain.Exceptions;
 using Rent.Domain.Exceptions.Auth;
 
 namespace Rent.BL.Auth;
@@ -6,10 +12,12 @@ namespace Rent.BL.Auth;
 public class AuthService : IAuthService
 {
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly IConfiguration _configuration;
 
-    public AuthService(UserManager<IdentityUser> userManager)
+    public AuthService(UserManager<IdentityUser> userManager, IConfiguration configuration)
     {
         _userManager = userManager;
+        _configuration = configuration;
     }
 
     public async Task RegisterUser(string username, string email, string password)
@@ -45,6 +53,52 @@ public class AuthService : IAuthService
                 await _userManager.AddToRoleAsync(admin, "Admin");
             }
         }
+    }
+
+    public async Task<JwtSecurityToken> Login(string username, string password)
+    {
+        var user = await _userManager.FindByNameAsync(username);
+        if (user == null)
+        {
+            throw new LoginUserNotFoundException(username);
+        }
+        var loginAttempt = await _userManager.CheckPasswordAsync(user, password);
+        if (!loginAttempt)
+        {
+            throw new PasswordIncorrectException();
+        }
+
+        var authClaims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, username),
+            new Claim(ClaimTypes.NameIdentifier, user.Id)
+        };
+        var userRoles = await _userManager.GetRolesAsync(user);
+        foreach (var role in userRoles)
+        {
+            authClaims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
+        var token = GetToken(authClaims);
+        return token;
+    }
+
+    private JwtSecurityToken GetToken(List<Claim> authClaims)
+    {
+        var jwtSecret = _configuration["JWT:Secret"];
+        if (jwtSecret == null)
+        {
+            throw new BaseException("JWT configuration invalid");
+        }
+        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret));
+        var token = new JwtSecurityToken(
+            issuer: _configuration["JWT:ValidIssuer"],
+            audience:  _configuration["JWT:ValidAudience"],
+            expires: DateTime.Now.AddHours(3),
+            claims: authClaims,
+            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+        );
+        return token;
     }
 
     private async Task AddRoleToUser(IdentityUser identityUser, string role)
