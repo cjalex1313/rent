@@ -7,7 +7,7 @@ using Rent.Domain.Exceptions;
 
 namespace Rent.API.Controllers;
 
-[Microsoft.AspNetCore.Components.Route("api/[controller]")]
+[Route("api/[controller]")]
 [ApiController]
 public class AuthenticationController : ControllerBase
 {

@@ -1,11 +1,14 @@
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Rent.API.Config;
 using Rent.API.Middleware;
 using Rent.BL;
 using Rent.BL.Auth;
 using Rent.DAL;
+using Rent.Domain.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +34,24 @@ builder.Services.AddAuthentication(options =>
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     }
-);
+).AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = true;
+    var jwtSecret = builder.Configuration["JWT:Secret"];
+    if (jwtSecret == null)
+    {
+        throw new BaseException("Invalid JWT Configuration");
+    }
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["JWT:ValidAudience"],
+        ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret))
+    };
+});
 
 var app = builder.Build();
 
@@ -46,6 +66,7 @@ app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
