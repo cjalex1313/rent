@@ -18,6 +18,8 @@ if (appSettings == null)
 {
     throw new Exception("Unable to parse appSettings");
 }
+
+builder.Services.AddCors();
 builder.Services.AddSingleton(appSettings);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -68,6 +70,11 @@ app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors(builder => builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
 app.MapControllers();
 

@@ -19,7 +19,7 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
+    public async Task<ActionResult<BaseResponse>> Register([FromBody] RegisterUserRequest request)
     {
         if (!ModelState.IsValid)
         {
@@ -31,7 +31,7 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
     {
         if (!ModelState.IsValid)
         {
