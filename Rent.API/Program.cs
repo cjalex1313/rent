@@ -80,7 +80,29 @@ app.MapControllers();
 
 using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
 {
-    scope.ServiceProvider.GetService<RentDbContext>()?.Database.Migrate();
+    var rentDbContext = scope.ServiceProvider.GetService<RentDbContext>();
+    rentDbContext?.Database.Migrate();
+    var adminRole = rentDbContext.Roles.FirstOrDefault(r => r.Name == "Admin");
+    if (adminRole == null)
+    {
+        rentDbContext.Roles.Add(new IdentityRole()
+        {
+            Name = "Admin",
+            NormalizedName = "ADMIN",
+            ConcurrencyStamp = "1"
+        });
+    }
+    var userRole = rentDbContext.Roles.FirstOrDefault(r => r.Name == "User");
+    if (userRole == null)
+    {
+        rentDbContext.Roles.Add(new IdentityRole()
+        {
+            Name = "User",
+            NormalizedName = "USER",
+            ConcurrencyStamp = "2"
+        });
+    }
+    rentDbContext.SaveChanges();
 }
 
 using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())

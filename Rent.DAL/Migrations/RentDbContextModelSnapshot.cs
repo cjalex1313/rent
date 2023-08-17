@@ -46,22 +46,6 @@ namespace Rent.DAL.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "11bf25e9-5730-4aa3-923d-952a97f9c954",
-                            ConcurrencyStamp = "1",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "88d8eaae-ccd3-40aa-bd77-63e34f896857",
-                            ConcurrencyStamp = "2",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -234,6 +218,88 @@ namespace Rent.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Rent.Domain.Entities.Property", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<double>("Size")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("State")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Properties", (string)null);
+
+                    b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("Rent.Domain.Entities.Apartment", b =>
+                {
+                    b.HasBaseType("Rent.Domain.Entities.Property");
+
+                    b.Property<int>("ApartmentNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("BuildingMaxFloor")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Floor")
+                        .HasColumnType("integer");
+
+                    b.ToTable("Apartments", (string)null);
+                });
+
+            modelBuilder.Entity("Rent.Domain.Entities.House", b =>
+                {
+                    b.HasBaseType("Rent.Domain.Entities.Property");
+
+                    b.Property<double>("LandSize")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("Levels")
+                        .HasColumnType("integer");
+
+                    b.ToTable("Houses", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -281,6 +347,24 @@ namespace Rent.DAL.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Rent.Domain.Entities.Apartment", b =>
+                {
+                    b.HasOne("Rent.Domain.Entities.Property", null)
+                        .WithOne()
+                        .HasForeignKey("Rent.Domain.Entities.Apartment", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Rent.Domain.Entities.House", b =>
+                {
+                    b.HasOne("Rent.Domain.Entities.Property", null)
+                        .WithOne()
+                        .HasForeignKey("Rent.Domain.Entities.House", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

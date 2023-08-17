@@ -23,7 +23,7 @@ public class AuthenticationController : ControllerBase
     {
         if (!ModelState.IsValid)
         {
-            var errors = ModelState.SelectMany(m => m.Value.Errors).ToList();
+            var errors = ModelState.Where(m => m.Value != null).SelectMany(m => m.Value!.Errors).ToList();
             throw new ModelValidationException(errors.Select(e => e.ErrorMessage).ToList());
         }
         await _authService.RegisterUser(request.Username, request.Email, request.Password);
@@ -35,7 +35,7 @@ public class AuthenticationController : ControllerBase
     {
         if (!ModelState.IsValid)
         {
-            var errors = ModelState.SelectMany(m => m.Value.Errors).ToList();
+            var errors = ModelState.Where(m => m.Value != null).SelectMany(m => m.Value!.Errors).ToList();
             throw new ModelValidationException(errors.Select(e => e.ErrorMessage).ToList());
         }
         var token = await _authService.Login(request.Username, request.Password);
