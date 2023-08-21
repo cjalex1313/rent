@@ -241,8 +241,10 @@ namespace Rent.DAL.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<int>("Number")
-                        .HasColumnType("integer");
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uuid");

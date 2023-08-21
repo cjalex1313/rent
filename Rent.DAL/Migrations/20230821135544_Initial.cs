@@ -63,7 +63,7 @@ namespace Rent.DAL.Migrations
                     City = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     State = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     Street = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Number = table.Column<int>(type: "integer", nullable: false),
+                    Number = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     PostalCode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     Size = table.Column<double>(type: "double precision", nullable: false)
                 },

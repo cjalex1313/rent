@@ -12,7 +12,7 @@ using Rent.DAL;
 namespace Rent.DAL.Migrations
 {
     [DbContext(typeof(RentDbContext))]
-    [Migration("20230817133312_Initial")]
+    [Migration("20230821135544_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -244,8 +244,10 @@ namespace Rent.DAL.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<int>("Number")
-                        .HasColumnType("integer");
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uuid");

@@ -25,6 +25,7 @@ public class RentDbContext : IdentityDbContext<IdentityUser>
         builder.Entity<Property>().Property(p => p.City).HasMaxLength(200);
         builder.Entity<Property>().Property(p => p.State).HasMaxLength(100);
         builder.Entity<Property>().Property(p => p.Street).HasMaxLength(200);
+        builder.Entity<Property>().Property(p => p.Number).HasMaxLength(20);
         builder.Entity<Property>().Property(p => p.PostalCode).HasMaxLength(20);
         builder.Entity<Apartment>().ToTable("Apartments");
         builder.Entity<House>().ToTable("Houses");
