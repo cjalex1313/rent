@@ -16,6 +16,13 @@ public class PropertyController : BaseController
     {
         _propertyService = propertyService;
     }
+
+    [HttpGet]
+    public IActionResult GetAllProperties()
+    {
+        var props = _propertyService.GetAllProperties();
+        return Ok(props);
+    }
     
     [HttpPost("apartment")]
     public ActionResult<AddPropertyResponse> AddApartment([FromBody] AddApartmentRequest request)

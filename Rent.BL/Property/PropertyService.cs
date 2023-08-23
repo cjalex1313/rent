@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Rent.DAL;
 using Rent.Domain.Entities;
 
@@ -24,5 +25,12 @@ public class PropertyService : IPropertyService
         _context.Houses.Add(house);
         _context.SaveChanges();
         return house.Id;
+    }
+
+    public IEnumerable<Domain.Entities.Property> GetAllProperties()
+    {
+        var property = _context.Properties.FirstOrDefault(p => p.Id == 1);
+        var properties = _context.Properties.ToList();
+        return properties;
     }
 }
