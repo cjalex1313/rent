@@ -1,11 +1,15 @@
+using System.ComponentModel.DataAnnotations;
 using Rent.Domain.Entities;
 
 namespace Rent.API.Models.Property;
 
 public class AddApartmentRequest : AddPropertyRequest
 {
+    [Required]
     public int Floor { get; set; }
+    [Required]
     public int BuildingMaxFloor { get; set; }
+    [Required]
     public int ApartmentNumber { get; set; }
 
     public static Apartment GetEntity(AddApartmentRequest request, Guid ownerId)
@@ -20,6 +24,7 @@ public class AddApartmentRequest : AddPropertyRequest
             Street = request.Street,
             PostalCode = request.PostalCode,
             Size = request.Size,
+            Number = request.Number,
             Floor = request.Floor,
             BuildingMaxFloor = request.BuildingMaxFloor,
             ApartmentNumber = request.ApartmentNumber

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Rent.API.Config;
 using Rent.API.Middleware;
 using Rent.BL;
@@ -24,7 +25,17 @@ builder.Services.AddSingleton(appSettings);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition(name: "Bearer", securityScheme: new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "Enter the Bearer Authorization string as following: `Bearer Generated-JWT-Token`",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+});
 
 builder.Services.AddBusinessLogicModule(builder.Configuration);
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<RentDbContext>()
