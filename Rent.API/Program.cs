@@ -79,13 +79,15 @@ app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
-app.UseAuthentication();
-app.UseAuthorization();
+
 
 app.UseCors(builder => builder
     .AllowAnyOrigin()
     .AllowAnyMethod()
     .AllowAnyHeader());
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
