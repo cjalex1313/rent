@@ -18,12 +18,14 @@ public class PropertyController : BaseController
     }
 
     [HttpGet]
-    public IActionResult GetAllProperties()
+    public ActionResult<GetUserPropertiesResponse> GetUserProperties()
     {
-        var props = _propertyService.GetAllProperties();
-        return Ok(props);
+        var userId = GetUserId();
+        var userProperties = _propertyService.GetUserProperties(userId);
+        var response = new GetUserPropertiesResponse(userProperties);
+        return Ok(response);
     }
-    
+
     [HttpPost("apartment")]
     public ActionResult<AddPropertyResponse> AddApartment([FromBody] AddApartmentRequest request)
     {

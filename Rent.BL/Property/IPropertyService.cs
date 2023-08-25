@@ -6,5 +6,5 @@ public interface IPropertyService
 {
     int AddAppartment(Apartment apartment);
     int AddHouse(House house);
-    IEnumerable<Domain.Entities.Property> GetAllProperties();
+    IEnumerable<Domain.Entities.Property> GetUserProperties(Guid userId);
 }

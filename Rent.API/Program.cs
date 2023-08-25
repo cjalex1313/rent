@@ -94,7 +94,11 @@ app.MapControllers();
 using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
 {
     var rentDbContext = scope.ServiceProvider.GetService<RentDbContext>();
-    rentDbContext?.Database.Migrate();
+    if (rentDbContext == null)
+    {
+        throw new BaseException("Cannot initialize DbContext");
+    }
+    rentDbContext.Database.Migrate();
     var adminRole = rentDbContext.Roles.FirstOrDefault(r => r.Name == "Admin");
     if (adminRole == null)
     {

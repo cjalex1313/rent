@@ -27,10 +27,9 @@ public class PropertyService : IPropertyService
         return house.Id;
     }
 
-    public IEnumerable<Domain.Entities.Property> GetAllProperties()
+    public IEnumerable<Domain.Entities.Property> GetUserProperties(Guid userId)
     {
-        var property = _context.Properties.FirstOrDefault(p => p.Id == 1);
-        var properties = _context.Properties.ToList();
+        var properties = _context.Properties.Where(p => p.OwnerId == userId).ToList();
         return properties;
     }
 }
