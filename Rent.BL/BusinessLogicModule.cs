@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Rent.BL.Auth;
 using Rent.BL.Property;
+using Rent.BL.Property.Apartment;
+using Rent.BL.Property.House;
 using Rent.DAL;
 
 namespace Rent.BL;
@@ -14,5 +16,7 @@ public static class BusinessLogicModule
         services.AddDataAccessModule(builderConfiguration);
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IPropertyService, PropertyService>();
+        services.AddScoped<IApartmentService, ApartmentService>();
+        services.AddScoped<IHouseService, HouseService>();
     }
 }

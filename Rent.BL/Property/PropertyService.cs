@@ -13,20 +13,6 @@ public class PropertyService : IPropertyService
         _context = context;
     }
 
-    public int AddAppartment(Apartment apartment)
-    {
-        _context.Apartments.Add(apartment);
-        _context.SaveChanges();
-        return apartment.Id;
-    }
-
-    public int AddHouse(House house)
-    {
-        _context.Houses.Add(house);
-        _context.SaveChanges();
-        return house.Id;
-    }
-
     public IEnumerable<Domain.Entities.Property> GetUserProperties(Guid userId)
     {
         var properties = _context.Properties.Where(p => p.OwnerId == userId).ToList();
