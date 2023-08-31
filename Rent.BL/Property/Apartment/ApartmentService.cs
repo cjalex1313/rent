@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Rent.DAL;
+using Rent.Domain.Exceptions.Properties;
 using Rent.Domain.Exceptions.Properties.Apartments;
 
 namespace Rent.BL.Property.Apartment;
@@ -20,7 +21,7 @@ public class ApartmentService : IApartmentService
         return apartment.Id;
     }
 
-    public Domain.Entities.Apartment GetApartment(int id)
+    public Domain.Entities.Apartment GetApartmentDTO(int id)
     {
         var apartment = _context.Apartments.AsNoTracking().FirstOrDefault(a => a.Id == id);
         if (apartment == null)
@@ -28,5 +29,22 @@ public class ApartmentService : IApartmentService
             throw new ApartmentNotFoundException(id);
         }
         return apartment;
+    }
+
+    public void UpdateApartment(Guid userId, Domain.Entities.Apartment newApartment)
+    {
+        var dbApartment = _context.Apartments.FirstOrDefault(a => a.Id == newApartment.Id);
+        if (dbApartment == null)
+        {
+            throw new ApartmentNotFoundException(newApartment.Id);
+        }
+
+        if (userId != dbApartment.OwnerId)
+        {
+            throw new UserNotOwnerOfPropertyException(dbApartment.Id);
+        }
+        
+        _context.Entry(dbApartment).CurrentValues.SetValues(newApartment);
+        _context.SaveChanges();
     }
 }

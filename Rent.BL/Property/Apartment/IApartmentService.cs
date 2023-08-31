@@ -3,5 +3,6 @@
 public interface IApartmentService
 {
     int AddAppartment(Domain.Entities.Apartment apartment);
-    Domain.Entities.Apartment GetApartment(int id);
+    Domain.Entities.Apartment GetApartmentDTO(int id);
+    void UpdateApartment(Guid userId, Domain.Entities.Apartment newApartment);
 }

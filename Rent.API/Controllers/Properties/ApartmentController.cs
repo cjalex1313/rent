@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Rent.API.Models.Property;
 using Rent.API.Models.Property.Apartment;
 using Rent.BL.Property.Apartment;
+using Rent.Domain.Entities;
+using Rent.Domain.Exceptions.Properties;
 using Rent.Domain.Exceptions.Properties.Apartments;
 
 namespace Rent.API.Controllers.Properties;
@@ -22,7 +24,7 @@ public class ApartmentController : BaseController
     [HttpGet("{id:int}")]
     public ActionResult<GetApartmentResponse> GetApartment([FromRoute] int id)
     {
-        var apartment = _apartmentService.GetApartment(id);
+        var apartment = _apartmentService.GetApartmentDTO(id);
         var userId = GetUserId();
         if (userId != apartment.OwnerId)
         {
@@ -41,6 +43,20 @@ public class ApartmentController : BaseController
         var apartment = AddApartmentRequest.GetEntity(request, userId);
         int id = _apartmentService.AddAppartment(apartment);
         var response = new AddPropertyResponse(id);
+        return Ok(response);
+    }
+
+    [HttpPut]
+    public ActionResult<UpdateApartmentResponse> UpdateApartment([FromBody] UpdateApartmentRequest request)
+    {
+        var userId = GetUserId();
+        if (userId != request.OwnerId)
+        {
+            throw new UserNotAllowedToTransferPropertyException();
+        }
+        var newApartment = request.GetApartment();
+        _apartmentService.UpdateApartment(userId, newApartment);
+        var response = new UpdateApartmentResponse(newApartment);
         return Ok(response);
     }
 }
