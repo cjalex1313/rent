@@ -17,4 +17,16 @@ public abstract class BaseController : ControllerBase
         }
         return userId;
     }
+
+    protected string GetUsername()
+    {
+        var userName = User.FindFirstValue(ClaimTypes.Name);
+        if (userName == null)
+        {
+            var userId = GetUserId();
+            throw new UsernameClaimNotPresent(userId.ToString());
+        }
+
+        return userName;
+    }
 }

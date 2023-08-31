@@ -50,7 +50,7 @@ public class UserPropertyModel
         Size = property.Size;
         switch (property)
         {
-            case Apartment:
+            case Domain.Entities.Apartment:
                 PropertyType = PropertyTypeEnum.Apartment;
                 break;
             case House:
