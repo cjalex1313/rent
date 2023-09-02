@@ -10,11 +10,13 @@ public class BaseException : Exception
     {
         StatusCode = 500;
         ErrorMessage = "Internal server error";
+        Errors = new List<string>();
     }
 
     public BaseException(string errorMessage) : base(errorMessage)
     {
         StatusCode = 500;
         ErrorMessage = errorMessage;
+        Errors = new List<string>();
     }
 }
