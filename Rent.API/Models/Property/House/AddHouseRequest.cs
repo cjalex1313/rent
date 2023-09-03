@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Rent.Domain.Entities;
 
-namespace Rent.API.Models.Property;
+namespace Rent.API.Models.Property.House;
 
 public class AddHouseRequest : AddPropertyRequest
 {
@@ -10,9 +10,9 @@ public class AddHouseRequest : AddPropertyRequest
     [Required]
     public int Levels { get; set; }
 
-    public static House GetEntity(AddHouseRequest request, Guid userId)
+    public static Domain.Entities.House GetEntity(AddHouseRequest request, Guid userId)
     {
-        var house = new House()
+        var house = new Domain.Entities.House()
         {
             OwnerId = userId,
             Name = request.Name,

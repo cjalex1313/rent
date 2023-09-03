@@ -53,7 +53,7 @@ public class UserPropertyModel
             case Domain.Entities.Apartment:
                 PropertyType = PropertyTypeEnum.Apartment;
                 break;
-            case House:
+            case Domain.Entities.House:
                 PropertyType = PropertyTypeEnum.House;
                 break;
             default:
