@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Rent.BL.Property.DTO;
 using Rent.DAL;
 using Rent.Domain.Entities;
 using Rent.Domain.Exceptions.Properties;
@@ -34,5 +35,20 @@ public class PropertyService : IPropertyService
         }
         _context.Properties.Remove(property);
         _context.SaveChanges();
+    }
+
+    public List<Domain.Entities.Property> Search(SearchPropertiesFilters filters)
+    {
+        var propertiesQuery = _context.Properties.Where(p => p.Country.ToLower().Contains(filters.Country));
+        if (filters.City != null)
+        {
+            propertiesQuery = propertiesQuery.Where(p => p.City.ToLower().Contains(filters.City));
+        }
+        if (filters.State != null)
+        {
+            propertiesQuery = propertiesQuery.Where(p => p.State != null && p.State.ToLower().Contains(filters.State));
+        }
+        var properties = propertiesQuery.OrderBy(p => p.Id).Skip(filters.PageSize * filters.Page).Take(filters.PageSize).ToList();
+        return properties;
     }
 }

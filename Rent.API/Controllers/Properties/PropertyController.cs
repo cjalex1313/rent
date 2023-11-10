@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Rent.API.Models.Base;
 using Rent.API.Models.Property;
+using Rent.API.Models.Property.Search;
 using Rent.BL.Property;
+using Rent.Domain.Entities;
 
 namespace Rent.API.Controllers.Properties;
 
@@ -25,6 +27,14 @@ public class PropertyController : BaseController
         var userProperties = _propertyService.GetUserProperties(userId);
         var response = new GetUserPropertiesResponse(userProperties);
         return Ok(response);
+    }
+
+    [HttpGet("search")]
+    public ActionResult<SearchPropertiesResponse> Search([FromQuery] SearchPropertiesRequest request)
+    {
+        List<Property> properties = _propertyService.Search(request.ToFilters());
+        var result = new SearchPropertiesResponse(properties);
+        return Ok(result);
     }
 
     [HttpDelete("{id:int}")]
