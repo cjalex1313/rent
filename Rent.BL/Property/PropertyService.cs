@@ -37,8 +37,9 @@ public class PropertyService : IPropertyService
         _context.SaveChanges();
     }
 
-    public List<Domain.Entities.Property> Search(SearchPropertiesFilters filters)
+    public PropertySearchResult Search(SearchPropertiesFilters filters)
     {
+        var result = new PropertySearchResult();
         var propertiesQuery = _context.Properties.Where(p => p.Country.ToLower().Contains(filters.Country));
         if (filters.City != null)
         {
@@ -48,7 +49,10 @@ public class PropertyService : IPropertyService
         {
             propertiesQuery = propertiesQuery.Where(p => p.State != null && p.State.ToLower().Contains(filters.State));
         }
+
+        result.Total = propertiesQuery.Count();
         var properties = propertiesQuery.OrderBy(p => p.Id).Skip(filters.PageSize * filters.Page).Take(filters.PageSize).ToList();
-        return properties;
+        result.Properties = properties;
+        return result;
     }
 }

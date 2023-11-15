@@ -32,8 +32,8 @@ public class PropertyController : BaseController
     [HttpGet("search")]
     public ActionResult<SearchPropertiesResponse> Search([FromQuery] SearchPropertiesRequest request)
     {
-        List<Property> properties = _propertyService.Search(request.ToFilters());
-        var result = new SearchPropertiesResponse(properties);
+        var searchResult = _propertyService.Search(request.ToFilters());
+        var result = new SearchPropertiesResponse(searchResult.Properties, searchResult.Total);
         return Ok(result);
     }
 
