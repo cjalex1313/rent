@@ -93,7 +93,7 @@ public class AuthService : IAuthService
         var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret));
         var token = new JwtSecurityToken(
             issuer: _configuration["JWT:ValidIssuer"],
-            audience:  _configuration["JWT:ValidAudience"],
+            //audience:  _configuration["JWT:ValidAudience"],
             expires: DateTime.Now.AddDays(7),
             claims: authClaims,
             signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
