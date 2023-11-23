@@ -117,13 +117,14 @@ public class AuthService : IAuthService
             UserName = username,
             Email = email,
             SecurityStamp = Guid.NewGuid().ToString(),
-            EmailConfirmed = true
         };
         var result = await _userManager.CreateAsync(identityUser, password);
         if (!result.Succeeded)
         {
             throw new UserCreationException(result.Errors.Select(e => e.Description).ToList());
         }
+        var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
+        
         return identityUser;
     }
 
