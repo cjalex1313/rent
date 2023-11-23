@@ -18,6 +18,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "rent.web", "Rent.Web\rent.web.esproj", "{1A14345D-FF9C-4B5B-A976-704B7DD90B9E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{61BE09CB-DC69-4A4A-87FA-5960AF00801C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rent.Email", "Rent.Email\Rent.Email.csproj", "{E0085CD0-E28E-4F15-819D-33B5FA8BDDBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,9 +50,16 @@ Global
 		{1A14345D-FF9C-4B5B-A976-704B7DD90B9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A14345D-FF9C-4B5B-A976-704B7DD90B9E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A14345D-FF9C-4B5B-A976-704B7DD90B9E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{E0085CD0-E28E-4F15-819D-33B5FA8BDDBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0085CD0-E28E-4F15-819D-33B5FA8BDDBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0085CD0-E28E-4F15-819D-33B5FA8BDDBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0085CD0-E28E-4F15-819D-33B5FA8BDDBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E0085CD0-E28E-4F15-819D-33B5FA8BDDBD} = {61BE09CB-DC69-4A4A-87FA-5960AF00801C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {71A3495A-D4DB-44DE-A317-A469137677E9}
