@@ -14,6 +14,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Rent.DAL\Rent.DAL.csproj" />
+      <ProjectReference Include="..\Rent.Email\Rent.Email.csproj" />
     </ItemGroup>
 
 </Project>

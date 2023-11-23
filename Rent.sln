@@ -20,7 +20,7 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "rent.web", "Rent.Web\rent.w
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{61BE09CB-DC69-4A4A-87FA-5960AF00801C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rent.Email", "Rent.Email\Rent.Email.csproj", "{E0085CD0-E28E-4F15-819D-33B5FA8BDDBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rent.Email", "Rent.Email\Rent.Email.csproj", "{E0085CD0-E28E-4F15-819D-33B5FA8BDDBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
