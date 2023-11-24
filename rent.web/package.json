@@ -9,7 +9,7 @@
     "test:unit": "vitest",
     "test:e2e": "playwright test",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "predev": "node aspnetcore-https.js",
+    "predev": "vite",
     "format": "prettier --write src/"
   },
   "dependencies": {
