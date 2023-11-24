@@ -4,8 +4,10 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Rent.Domain.Config;
 using Rent.Domain.Exceptions;
 using Rent.Domain.Exceptions.Auth;
+using Rent.Email;
 
 namespace Rent.BL.Auth;
 
@@ -13,11 +15,15 @@ public class AuthService : IAuthService
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly IConfiguration _configuration;
+    private readonly IEmailService _emailService;
+    private readonly AppSettings _appSettings;
 
-    public AuthService(UserManager<IdentityUser> userManager, IConfiguration configuration)
+    public AuthService(UserManager<IdentityUser> userManager, IConfiguration configuration, IEmailService emailService, AppSettings appSettings)
     {
         _userManager = userManager;
         _configuration = configuration;
+        _emailService = emailService;
+        _appSettings = appSettings;
     }
 
     public async Task RegisterUser(string username, string email, string password)
@@ -124,7 +130,16 @@ public class AuthService : IAuthService
             throw new UserCreationException(result.Errors.Select(e => e.Description).ToList());
         }
         var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
-        
+        if (confirmationToken != null)
+        {
+            _emailService.SendEmail(new Email.Models.MailData
+            {
+                Email = email,
+                Name = username,
+                Subject = "Email confirmation",
+                Body = $"Welcome to Rent. Click <a href=\"{_appSettings.EmailConfirmationUrl + "?userId=" + identityUser.Id + "&token=" + confirmationToken}\">here</a> to confirm your email"
+            }, MimeKit.Text.TextFormat.Html);
+        }
         return identityUser;
     }
 

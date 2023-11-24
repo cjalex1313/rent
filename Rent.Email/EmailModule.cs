@@ -15,6 +15,7 @@ namespace Rent.Email
                 throw new Exception("Error - incorrect email config - unable to map email config");
             }
             services.AddSingleton<EmailConfig>(emailConfig);
+            services.AddScoped<IEmailService, EmailService>();
         }
     }
 }

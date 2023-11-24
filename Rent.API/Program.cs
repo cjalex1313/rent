@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Rent.API.Config;
 using Rent.API.Middleware;
 using Rent.BL;
 using Rent.BL.Auth;
 using Rent.DAL;
+using Rent.Domain.Config;
 using Rent.Domain.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
