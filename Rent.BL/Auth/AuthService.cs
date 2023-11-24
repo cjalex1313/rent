@@ -151,12 +151,13 @@ public class AuthService : IAuthService
         var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
         if (confirmationToken != null)
         {
+            var encodedToken = Base64UrlEncoder.Encode(confirmationToken);
             _emailService.SendEmail(new Email.Models.MailData
             {
                 Email = email,
                 Name = username,
                 Subject = "Email confirmation",
-                Body = $"Welcome to Rent. Click <a href=\"{_appSettings.EmailConfirmationUrl + "?userId=" + identityUser.Id + "&token=" + confirmationToken}\">here</a> to confirm your email"
+                Body = $"Welcome to Rent. Click <a href=\"{_appSettings.EmailConfirmationUrl + "?userId=" + identityUser.Id + "&token=" + encodedToken}\">here</a> to confirm your email"
             }, MimeKit.Text.TextFormat.Html);
         }
         return identityUser;
