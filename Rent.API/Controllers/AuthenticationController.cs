@@ -30,6 +30,13 @@ public class AuthenticationController : BaseController
         return Ok(new BaseResponse());
     }
 
+    [HttpPost("Confirmation")]
+    public async Task<IActionResult> EmailConfirmation([FromBody] EmailValidationRequest request)
+    {
+        await _authService.ConfirmEmail(request.UserId, request.Token);
+        return Ok(new BaseResponse());
+    }
+
     [HttpPost("Login")]
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
     {
