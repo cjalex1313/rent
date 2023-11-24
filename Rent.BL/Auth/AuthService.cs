@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
@@ -58,6 +59,24 @@ public class AuthService : IAuthService
             {
                 await _userManager.AddToRoleAsync(admin, "Admin");
             }
+        }
+    }
+
+    public async Task ConfirmEmail(Guid userId, string token)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            throw new UserIdNotFoundException(userId);
+        }
+        var result = await _userManager.ConfirmEmailAsync(user, token);
+        if (result == null || !result.Succeeded)
+        {
+            throw new BaseException()
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                ErrorMessage = result != null ? String.Join(". ", result.Errors.Select(e => e.Description).ToList()) : "Error while confirming email via confirmation token"
+            };
         }
     }
 
@@ -132,12 +151,13 @@ public class AuthService : IAuthService
         var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
         if (confirmationToken != null)
         {
+            var encodedToken = Base64UrlEncoder.Encode(confirmationToken);
             _emailService.SendEmail(new Email.Models.MailData
             {
                 Email = email,
                 Name = username,
                 Subject = "Email confirmation",
-                Body = $"Welcome to Rent. Click <a href=\"{_appSettings.EmailConfirmationUrl + "?userId=" + identityUser.Id + "&token=" + confirmationToken}\">here</a> to confirm your email"
+                Body = $"Welcome to Rent. Click <a href=\"{_appSettings.EmailConfirmationUrl + "?userId=" + identityUser.Id + "&token=" + encodedToken}\">here</a> to confirm your email"
             }, MimeKit.Text.TextFormat.Html);
         }
         return identityUser;

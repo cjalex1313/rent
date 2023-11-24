@@ -1,27 +1,17 @@
 <template>
   <section class="bg-gray-50 min-h-screen">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <router-link
-        to="/"
-        class="flex items-center mb-6 text-2xl font-semibold text-gray-900"
-      >
+      <router-link to="/" class="flex items-center mb-6 text-2xl font-semibold text-gray-900">
         Home
       </router-link>
-      <div
-        class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0"
-      >
+      <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1
-            class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
-          >
+          <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
             Sign up for Rent
           </h1>
           <form class="space-y-4 md:space-y-6" action="#">
             <div>
-              <label
-                for="username"
-                class="block mb-2 text-sm font-medium text-gray-900"
-              >
+              <label for="username" class="block mb-2 text-sm font-medium text-gray-900">
                 Username
               </label>
               <input
@@ -41,12 +31,7 @@
               </p>
             </div>
             <div>
-              <label
-                for="email"
-                class="block mb-2 text-sm font-medium text-gray-900"
-              >
-                Email
-              </label>
+              <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
               <input
                 v-model="registerState.email"
                 type="email"
@@ -65,10 +50,7 @@
               </p>
             </div>
             <div>
-              <label
-                for="password"
-                class="block mb-2 text-sm font-medium text-gray-900"
-              >
+              <label for="password" class="block mb-2 text-sm font-medium text-gray-900">
                 Password
               </label>
               <input
@@ -89,10 +71,7 @@
               </p>
             </div>
             <div>
-              <label
-                for="password"
-                class="block mb-2 text-sm font-medium text-gray-900"
-              >
+              <label for="password" class="block mb-2 text-sm font-medium text-gray-900">
                 Password check
               </label>
               <input
@@ -121,14 +100,17 @@
             </button>
             <p class="text-sm font-light text-gray-500">
               Already have an account?
-              <router-link
-                to="/auth/login"
-                class="font-medium text-primary-600 hover:underline"
-              >
+              <router-link to="/auth/login" class="font-medium text-primary-600 hover:underline">
                 Sign in
               </router-link>
             </p>
           </form>
+          <h1
+            v-if="success"
+            class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
+          >
+            Check your email to activate your account
+          </h1>
         </div>
       </div>
     </div>
@@ -136,10 +118,11 @@
 </template>
 
 <script setup>
-import { reactive, computed } from 'vue'
+import { reactive, computed, ref } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, sameAs, helpers } from '@vuelidate/validators'
 import { useAuthStore } from '../../stores/auth'
+import authApi from '../../api/authApi'
 
 const registerState = reactive({
   username: '',
@@ -147,6 +130,8 @@ const registerState = reactive({
   password: '',
   passwordCheck: ''
 })
+
+const success = ref(false)
 
 const authState = useAuthStore()
 
@@ -194,6 +179,14 @@ const register = async () => {
   v$.value.$touch()
   const isValid = await v$.value.$validate()
   if (!isValid) return
-  await authState.register(registerState.username, registerState.email, registerState.password)
+  // await authState.register(registerState.username, registerState.email, registerState.password)
+  const registerData = await authApi.register(
+    registerState.username,
+    registerState.email,
+    registerState.password
+  )
+  if (registerData && registerData.succeeded) {
+    success.value = true
+  }
 }
 </script>

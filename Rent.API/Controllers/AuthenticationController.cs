@@ -1,5 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using MimeKit.Encodings;
 using Rent.API.Models.Auth;
 using Rent.API.Models.Base;
 using Rent.BL.Auth;
@@ -27,6 +29,14 @@ public class AuthenticationController : BaseController
             throw new ModelValidationException(errors.Select(e => e.ErrorMessage).ToList());
         }
         await _authService.RegisterUser(request.Username, request.Email, request.Password);
+        return Ok(new BaseResponse());
+    }
+
+    [HttpPost("Confirmation")]
+    public async Task<IActionResult> EmailConfirmation([FromBody] EmailValidationRequest request)
+    {
+        var decodedToken = Base64UrlEncoder.Decode(request.Token);
+        await _authService.ConfirmEmail(request.UserId, decodedToken);
         return Ok(new BaseResponse());
     }
 

@@ -15,6 +15,13 @@ const authApi = {
       password
     })
     return response.data
+  },
+  confirmEmail: async (userId, token) => {
+    const response = await baseApi.post('/Authentication/Confirmation', {
+      userId,
+      token
+    })
+    return response.data.succeeded
   }
 }
 

@@ -62,6 +62,11 @@ const router = createRouter({
           path: 'register',
           name: 'Register',
           component: RegisterView
+        },
+        {
+          path: 'email-confirmation',
+          name: 'EmailConfirmation',
+          component: () => import('../views/auth/EmailConfirmationView.vue')
         }
       ]
     }
