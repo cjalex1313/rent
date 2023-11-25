@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,9 @@ if (appSettings == null)
 {
     throw new Exception("Unable to parse appSettings");
 }
+
+Console.WriteLine(builder.Configuration.GetConnectionString("Rent"));
+Console.WriteLine(JsonSerializer.Serialize(appSettings));
 
 builder.Services.AddCors();
 builder.Services.AddSingleton(appSettings);
