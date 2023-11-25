@@ -9,9 +9,9 @@ public class UpdateHouseRequest : UpdatePropertyRequest
     [Required]
     public int Levels { get; set; }
 
-    public Domain.Entities.House GetHouse()
+    public Domain.Entities.Properties.House GetHouse()
     {
-        var house = new Domain.Entities.House()
+        var house = new Domain.Entities.Properties.House()
         {
             Id = Id,
             OwnerId = OwnerId,

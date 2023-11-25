@@ -11,9 +11,9 @@ public class UpdateApartmentRequest : UpdatePropertyRequest
     [Required]
     public int ApartmentNumber { get; set; }
 
-    public Domain.Entities.Apartment GetApartment()
+    public Domain.Entities.Properties.Apartment GetApartment()
     {
-        var apt = new Domain.Entities.Apartment()
+        var apt = new Domain.Entities.Properties.Apartment()
         {
             Id = Id,
             OwnerId = OwnerId,

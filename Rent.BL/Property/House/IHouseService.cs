@@ -2,7 +2,7 @@
 
 public interface IHouseService 
 {
-    int AddHouse(Domain.Entities.House house);
-    Domain.Entities.House GetHouse(int id);
-    void UpdateHouse(Guid userId, Domain.Entities.House house);
+    int AddHouse(Domain.Entities.Properties.House house);
+    Domain.Entities.Properties.House GetHouse(int id);
+    void UpdateHouse(Guid userId, Domain.Entities.Properties.House house);
 }

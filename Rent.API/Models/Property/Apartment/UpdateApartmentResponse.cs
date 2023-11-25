@@ -2,7 +2,7 @@
 
 public class UpdateApartmentResponse : GetApartmentResponse
 {
-    public UpdateApartmentResponse(Domain.Entities.Apartment apartment) : base(apartment)
+    public UpdateApartmentResponse(Domain.Entities.Properties.Apartment apartment) : base(apartment)
     {
         
     }

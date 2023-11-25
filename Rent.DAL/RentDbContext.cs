@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Rent.Domain.Entities;
+using Rent.Domain.Entities.Properties;
 
 namespace Rent.DAL;
 

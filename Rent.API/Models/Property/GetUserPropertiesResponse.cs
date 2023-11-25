@@ -1,12 +1,11 @@
 using Rent.API.Models.Base;
-using Rent.Domain.Entities;
 
 namespace Rent.API.Models.Property;
 
 public class GetUserPropertiesResponse : BaseResponse
 {
     public IEnumerable<UserPropertyModel> Properties { get; set; }
-    public GetUserPropertiesResponse(IEnumerable<Domain.Entities.Property> userProperties)
+    public GetUserPropertiesResponse(IEnumerable<Domain.Entities.Properties.Property> userProperties)
     {
         Properties = userProperties.Select(up =>
         {
@@ -36,7 +35,7 @@ public class UserPropertyModel
     public double Size { get; set; }
     public PropertyTypeEnum PropertyType { get; set; }
 
-    public UserPropertyModel(Domain.Entities.Property property)
+    public UserPropertyModel(Domain.Entities.Properties.Property property)
     {
         Id = property.Id;
         OwnerId = property.OwnerId;
@@ -50,10 +49,10 @@ public class UserPropertyModel
         Size = property.Size;
         switch (property)
         {
-            case Domain.Entities.Apartment:
+            case Domain.Entities.Properties.Apartment:
                 PropertyType = PropertyTypeEnum.Apartment;
                 break;
-            case Domain.Entities.House:
+            case Domain.Entities.Properties.House:
                 PropertyType = PropertyTypeEnum.House;
                 break;
             default:

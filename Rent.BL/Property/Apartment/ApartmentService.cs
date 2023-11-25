@@ -14,14 +14,14 @@ public class ApartmentService : IApartmentService
         _context = context;
     }
     
-    public int AddAppartment(Domain.Entities.Apartment apartment)
+    public int AddAppartment(Domain.Entities.Properties.Apartment apartment)
     {
         _context.Apartments.Add(apartment);
         _context.SaveChanges();
         return apartment.Id;
     }
 
-    public Domain.Entities.Apartment GetApartmentDTO(int id)
+    public Domain.Entities.Properties.Apartment GetApartmentDTO(int id)
     {
         var apartment = _context.Apartments.AsNoTracking().FirstOrDefault(a => a.Id == id);
         if (apartment == null)
@@ -31,7 +31,7 @@ public class ApartmentService : IApartmentService
         return apartment;
     }
 
-    public void UpdateApartment(Guid userId, Domain.Entities.Apartment newApartment)
+    public void UpdateApartment(Guid userId, Domain.Entities.Properties.Apartment newApartment)
     {
         var dbApartment = _context.Apartments.FirstOrDefault(a => a.Id == newApartment.Id);
         if (dbApartment == null)
