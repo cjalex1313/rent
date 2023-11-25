@@ -21,9 +21,6 @@ if (appSettings == null)
     throw new Exception("Unable to parse appSettings");
 }
 
-Console.WriteLine(builder.Configuration.GetConnectionString("Rent"));
-Console.WriteLine(JsonSerializer.Serialize(appSettings));
-
 builder.Services.AddCors();
 builder.Services.AddSingleton(appSettings);
 builder.Services.AddControllers();
