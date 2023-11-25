@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Rent.Domain.Entities.User
 {
-    public class UserDetails
+    public class UserDetail
     {
         public Guid UserId { get; set; }
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
     }
 }
