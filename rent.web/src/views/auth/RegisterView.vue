@@ -122,7 +122,7 @@ import { reactive, computed, ref } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, sameAs, helpers } from '@vuelidate/validators'
 import { useAuthStore } from '../../stores/auth'
-import authApi from '../../api/authApi'
+import authApi from '../../api/user/authApi'
 
 const registerState = reactive({
   username: '',

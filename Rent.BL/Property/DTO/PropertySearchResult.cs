@@ -2,6 +2,6 @@
 
 public class PropertySearchResult
 {
-    public List<Domain.Entities.Property> Properties { get; set; } = new List<Domain.Entities.Property>();
+    public List<Domain.Entities.Properties.Property> Properties { get; set; } = new List<Domain.Entities.Properties.Property>();
     public int Total { get; set; }
 }

@@ -6,7 +6,7 @@ public class GetHouseResponse : BaseResponse
 {
     public HouseDTO House { get; set; }
 
-    public GetHouseResponse(Domain.Entities.House house)
+    public GetHouseResponse(Domain.Entities.Properties.House house)
     {
         this.House = new HouseDTO()
         {

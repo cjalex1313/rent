@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Rent.Domain.Entities;
+using Rent.Domain.Entities.Properties;
+using Rent.Domain.Entities.User;
 
 namespace Rent.DAL;
 
@@ -10,6 +11,7 @@ public class RentDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Property> Properties { get; set; }
     public DbSet<Apartment> Apartments { get; set; }
     public DbSet<House> Houses { get; set; }
+    public DbSet<UserDetail> UserDetails { get; set; }
     public RentDbContext(DbContextOptions<RentDbContext> options) : base(options)
     {
         
@@ -29,5 +31,8 @@ public class RentDbContext : IdentityDbContext<IdentityUser>
         builder.Entity<Property>().Property(p => p.PostalCode).HasMaxLength(20);
         builder.Entity<Apartment>().ToTable("Apartments");
         builder.Entity<House>().ToTable("Houses");
+        builder.Entity<UserDetail>().ToTable("UserDetails").HasKey(e => e.UserId);
+        builder.Entity<UserDetail>().Property(c => c.FirstName).HasMaxLength(70);
+        builder.Entity<UserDetail>().Property(c => c.LastName).HasMaxLength(40);
     }
 }

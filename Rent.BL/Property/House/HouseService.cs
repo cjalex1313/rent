@@ -14,14 +14,14 @@ public class HouseService : IHouseService
         _context = context;
     }
     
-    public int AddHouse(Domain.Entities.House house)
+    public int AddHouse(Domain.Entities.Properties.House house)
     {
         _context.Houses.Add(house);
         _context.SaveChanges();
         return house.Id;
     }
 
-    public Domain.Entities.House GetHouse(int id)
+    public Domain.Entities.Properties.House GetHouse(int id)
     {
         var house = _context.Houses.AsNoTracking().FirstOrDefault(h => h.Id == id);
         if (house == null)
@@ -32,7 +32,7 @@ public class HouseService : IHouseService
         return house;
     }
 
-    public void UpdateHouse(Guid userId, Domain.Entities.House house)
+    public void UpdateHouse(Guid userId, Domain.Entities.Properties.House house)
     {
         var dbHouse = _context.Houses.FirstOrDefault(h => h.Id == house.Id);
         if (dbHouse == null)

@@ -36,7 +36,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import authApi from '../../api/authApi'
+import authApi from '../../api/user/authApi'
 
 const success = ref(false)
 const error = ref(false)

@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MimeKit.Encodings;
-using Rent.API.Models.Auth;
 using Rent.API.Models.Base;
+using Rent.API.Models.User.Auth;
 using Rent.BL.Auth;
 using Rent.Domain.Exceptions;
 
-namespace Rent.API.Controllers;
+namespace Rent.API.Controllers.User;
 
 [Route("api/[controller]")]
 [ApiController]

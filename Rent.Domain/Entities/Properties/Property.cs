@@ -1,4 +1,4 @@
-﻿namespace Rent.Domain.Entities;
+﻿namespace Rent.Domain.Entities.Properties;
 
 public class Property
 {

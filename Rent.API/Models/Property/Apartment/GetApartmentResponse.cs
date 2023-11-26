@@ -5,7 +5,7 @@ namespace Rent.API.Models.Property.Apartment;
 public class GetApartmentResponse : BaseResponse
 {
     public ApartmentDTO Apartment { get; set; }
-    public GetApartmentResponse(Domain.Entities.Apartment apartment)
+    public GetApartmentResponse(Domain.Entities.Properties.Apartment apartment)
     {
         this.Apartment = new ApartmentDTO()
         {

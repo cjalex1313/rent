@@ -84,9 +84,15 @@
             </button>
           </template>
           <template v-slot:menu>
+            <RouterLink
+              to="/profile"
+              class="text-sm font-semibold leading-6 text-gray-900 block px-4 py-2"
+            >
+              My profile
+            </RouterLink>
             <span
               @click="logout"
-              class="text-sm font-semibold leading-6 text-gray-900 block px-4 py-2"
+              class="text-sm font-semibold leading-6 text-gray-900 block px-4 py-2 cursor-pointer"
             >
               Log out
             </span>
@@ -199,7 +205,13 @@
                 Search
               </RouterLink>
             </div>
-            <div class="py-6">
+            <div class="space-y-2 py-6">
+              <RouterLink
+                to="/profile"
+                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >
+                My profile
+              </RouterLink>
               <RouterLink
                 v-if="!authState.accessToken"
                 to="/auth/login"
@@ -207,7 +219,11 @@
               >
                 Log in
               </RouterLink>
-              <span @click="logout" v-else class="text-sm font-semibold leading-6 text-gray-900">
+              <span
+                @click="logout"
+                v-else
+                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >
                 Log out
               </span>
             </div>
@@ -231,4 +247,6 @@ const authState = useAuthStore()
 const logout = () => {
   authState.logout()
 }
+
+const goToProfile = () => {}
 </script>

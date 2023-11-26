@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
-import authApi from '../api/authApi'
+import authApi from '../api/user/authApi'
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter()

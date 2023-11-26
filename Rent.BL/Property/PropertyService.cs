@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Rent.BL.Property.DTO;
 using Rent.DAL;
-using Rent.Domain.Entities;
 using Rent.Domain.Exceptions.Properties;
 
 namespace Rent.BL.Property;
@@ -15,7 +14,7 @@ public class PropertyService : IPropertyService
         _context = context;
     }
 
-    public IEnumerable<Domain.Entities.Property> GetUserProperties(Guid userId)
+    public IEnumerable<Domain.Entities.Properties.Property> GetUserProperties(Guid userId)
     {
         var properties = _context.Properties.Where(p => p.OwnerId == userId).ToList();
         return properties;

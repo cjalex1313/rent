@@ -2,7 +2,7 @@
 
 public class UpdateHouseResponse : GetHouseResponse
 {
-    public UpdateHouseResponse(Domain.Entities.House house) : base(house)
+    public UpdateHouseResponse(Domain.Entities.Properties.House house) : base(house)
     {
         
     }

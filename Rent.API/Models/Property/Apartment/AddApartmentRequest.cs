@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Rent.Domain.Entities;
 
 namespace Rent.API.Models.Property.Apartment;
 
@@ -12,9 +11,9 @@ public class AddApartmentRequest : AddPropertyRequest
     [Required]
     public int ApartmentNumber { get; set; }
 
-    public static Domain.Entities.Apartment GetEntity(AddApartmentRequest request, Guid ownerId)
+    public static Domain.Entities.Properties.Apartment GetEntity(AddApartmentRequest request, Guid ownerId)
     {
-        var apt = new Domain.Entities.Apartment()
+        var apt = new Domain.Entities.Properties.Apartment()
         {
             OwnerId = ownerId,
             Name = request.Name,
