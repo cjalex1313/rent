@@ -59,10 +59,11 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 const props = defineProps(['title'])
 const emit = defineEmits(['close'])
 
-const isMobile = !!navigator.userAgent.match(/iphone|android|blackberry/gi) || false
+const isMobile = computed(() => !!navigator.userAgent.match(/iphone|android|blackberry/gi) || false)
 </script>
 
 <style>
@@ -128,5 +129,22 @@ const isMobile = !!navigator.userAgent.match(/iphone|android|blackberry/gi) || f
   background: #4aae9b;
   border: 1px solid #4aae9b;
   border-radius: 2px;
+}
+
+@media only screen and (max-width: 767px) {
+  body {
+    position: relative;
+    height: max-content;
+    overflow: scroll;
+  }
+  body .modal-backdrop {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: auto;
+    align-items: baseline;
+    overflow: scroll;
+    scroll-behavior:smooth
+  }
 }
 </style>
