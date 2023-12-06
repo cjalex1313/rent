@@ -23,7 +23,7 @@ namespace Rent.FileManager
             var request = new GetPreSignedUrlRequest()
             {
                 BucketName = _s3Config.BucketName,
-                Key = key,
+                Key = _s3Config.Prefix + key,
                 Expires = DateTime.Now.AddDays(1)
             };
             var url = client.GetPreSignedURL(request);
@@ -37,7 +37,7 @@ namespace Rent.FileManager
             var uploadRequest = new TransferUtilityUploadRequest()
             {
                 InputStream = data,
-                Key = key,
+                Key = _s3Config.Prefix + key,
                 BucketName = _s3Config.BucketName,
                 CannedACL = S3CannedACL.PublicReadWrite
             };

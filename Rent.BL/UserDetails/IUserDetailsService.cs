@@ -9,7 +9,9 @@ namespace Rent.BS.UserDetails
 {
     public interface IUserDetailsService
     {
+        string? GetUserAvatarUrl(Guid userId, string avatarExtension);
         UserDetail? GetUserDetail(Guid userId);
+        void SetUserAvatar(Guid userId, string extension, Stream stream);
         void SetUserDetail(UserDetail userDetail);
     }
 }

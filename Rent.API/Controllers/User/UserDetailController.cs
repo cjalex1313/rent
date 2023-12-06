@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using Rent.API.Models.Base;
 using Rent.API.Models.User.UserDetail;
 using Rent.BS.UserDetails;
 using Rent.Domain.Entities.User;
@@ -25,7 +26,7 @@ namespace Rent.API.Controllers.User
         {
             var userId = GetUserId();
             UserDetail? userDetail = _userDetailsService.GetUserDetail(userId);
-            var response = new GetUserDetailResponse(userDetail);
+            var response = new GetUserDetailResponse(userDetail, _userDetailsService);
             return Ok(response);
         }
 
@@ -39,7 +40,24 @@ namespace Rent.API.Controllers.User
                 LastName = request.LastName
             };
             _userDetailsService.SetUserDetail(userDetail);
-            var response = new GetUserDetailResponse(userDetail);
+            var response = new GetUserDetailResponse(userDetail, _userDetailsService);
+            return Ok(response);
+        }
+
+        [HttpPost("avatar")]
+        public IActionResult SetUserAvatar([FromForm] IFormFile avatar)
+        {
+            var userId = GetUserId();
+            var filename = avatar.FileName;
+            var extension = Path.GetExtension(filename);
+            var isExtensionImage = extension == ".jpg" || extension == ".png" || extension == ".jpeg";
+            if (!isExtensionImage)
+            {
+                return BadRequest("File extension is not supported");
+            }
+            _userDetailsService.SetUserAvatar(userId, extension, avatar.OpenReadStream());
+            UserDetail? userDetail = _userDetailsService.GetUserDetail(userId);
+            var response = new GetUserDetailResponse(userDetail, _userDetailsService);
             return Ok(response);
         }
     }

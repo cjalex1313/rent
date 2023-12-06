@@ -53,9 +53,11 @@
 <script setup>
 import { reactive, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
-import userDetailApi from '../../api/user/userDetailApi'
+import { useUserDetailsStore } from '../../stores/userDatails'
 
 const router = useRouter()
+
+const userDetailsStore = useUserDetailsStore()
 
 const userDetails = reactive({
   firstName: '',
@@ -63,19 +65,13 @@ const userDetails = reactive({
 })
 
 onBeforeMount(async () => {
-  const details = await userDetailApi.getUserDetail()
-  userDetails.firstName = details.firstName
-  userDetails.lastName = details.lastName
+  await userDetailsStore.loadUserDetails()
+  userDetails.firstName = userDetailsStore.userDetails.firstName
+  userDetails.lastName = userDetailsStore.userDetails.lastName
 })
 
 const saveDetails = async () => {
-  const data = {
-    firstName: userDetails.firstName,
-    lastName: userDetails.lastName
-  }
-  const response = await userDetailApi.setUserDetail(data)
-  if (response && response.succeeded) {
-    router.push('/')
-  }
+  await userDetailsStore.saveUserDetails(userDetails.firstName, userDetails.lastName)
+  router.push('/')
 }
 </script>

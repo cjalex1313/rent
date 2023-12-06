@@ -7,5 +7,6 @@
         public string SecretKey { get; set; } = "";
         public string Region { get; set; } = "";
         public string ServiceUrl { get; set; } = "";
+        public string Prefix { get; set; } = "";
     }
 }

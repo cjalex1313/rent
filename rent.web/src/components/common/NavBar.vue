@@ -67,13 +67,20 @@
             >
               <span class="absolute -inset-1.5"></span>
               <span class="sr-only">Open user menu</span>
+              <img
+                v-if="userDetails.avatarUrl"
+                class="h-9 w-9 rounded-full"
+                :src="userDetails.avatarUrl"
+                alt=""
+              />
               <svg
+                v-else
                 xmlns="http://www.w3.org/2000/svg"
                 fill="transparent"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="black"
-                class="h-8 w-8 rounded-full"
+                class="h-9 w-9 rounded-full"
               >
                 <path
                   stroke-linecap="round"
@@ -235,18 +242,24 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
+import { useUserDetailsStore } from '../../stores/userDatails'
 import AppDropdown from './AppDropdown.vue'
 
 const sidebarOpen = ref(false)
+const userAvatar = ref('')
 
 const authState = useAuthStore()
+const userDetailsStore = useUserDetailsStore()
+const userDetails = userDetailsStore.userDetails
 
 const logout = () => {
   authState.logout()
 }
 
-const goToProfile = () => {}
+onBeforeMount(async () => {
+  await userDetailsStore.loadUserDetails()
+})
 </script>
