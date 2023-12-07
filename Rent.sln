@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{61
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rent.Email", "Rent.Email\Rent.Email.csproj", "{E0085CD0-E28E-4F15-819D-33B5FA8BDDBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rent.FileManager", "Rent.FileManager\Rent.FileManager.csproj", "{68BF8CC7-C0B8-41FB-A41E-7F2A2BB806D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,12 +48,17 @@ Global
 		{E0085CD0-E28E-4F15-819D-33B5FA8BDDBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0085CD0-E28E-4F15-819D-33B5FA8BDDBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0085CD0-E28E-4F15-819D-33B5FA8BDDBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68BF8CC7-C0B8-41FB-A41E-7F2A2BB806D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68BF8CC7-C0B8-41FB-A41E-7F2A2BB806D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68BF8CC7-C0B8-41FB-A41E-7F2A2BB806D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68BF8CC7-C0B8-41FB-A41E-7F2A2BB806D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E0085CD0-E28E-4F15-819D-33B5FA8BDDBD} = {61BE09CB-DC69-4A4A-87FA-5960AF00801C}
+		{68BF8CC7-C0B8-41FB-A41E-7F2A2BB806D0} = {61BE09CB-DC69-4A4A-87FA-5960AF00801C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {71A3495A-D4DB-44DE-A317-A469137677E9}

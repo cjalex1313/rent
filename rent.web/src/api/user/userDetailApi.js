@@ -11,6 +11,16 @@ const userDetailApi = {
       lastName: userDetail?.lastName
     })
     return response.data
+  },
+  setUserAvatar: async (file) => {
+    const formData = new FormData()
+    formData.append('avatar', file)
+    const response = await baseApi.post('/UserDetail/avatar', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    return response.data
   }
 }
 

@@ -20,6 +20,7 @@ public class RentDbContext : IdentityDbContext<IdentityUser>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
         builder.Entity<Property>().ToTable("Properties");
         builder.Entity<Property>().HasKey(p => p.Id);
         builder.Entity<Property>().Property(p => p.Name).HasMaxLength(200);
@@ -29,10 +30,14 @@ public class RentDbContext : IdentityDbContext<IdentityUser>
         builder.Entity<Property>().Property(p => p.Street).HasMaxLength(200);
         builder.Entity<Property>().Property(p => p.Number).HasMaxLength(20);
         builder.Entity<Property>().Property(p => p.PostalCode).HasMaxLength(20);
+
         builder.Entity<Apartment>().ToTable("Apartments");
+
         builder.Entity<House>().ToTable("Houses");
+
         builder.Entity<UserDetail>().ToTable("UserDetails").HasKey(e => e.UserId);
         builder.Entity<UserDetail>().Property(c => c.FirstName).HasMaxLength(70);
         builder.Entity<UserDetail>().Property(c => c.LastName).HasMaxLength(40);
+        builder.Entity<UserDetail>().Property(c => c.AvatarExtension).HasMaxLength(10);
     }
 }
