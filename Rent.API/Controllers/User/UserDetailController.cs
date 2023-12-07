@@ -31,7 +31,8 @@ namespace Rent.API.Controllers.User
         }
 
         [HttpPost]
-        public IActionResult Set([FromBody] SetUserDetailRequest request) { 
+        public IActionResult Set([FromBody] SetUserDetailRequest request)
+        {
             var userId = GetUserId();
             var userDetail = new UserDetail
             {
@@ -47,7 +48,6 @@ namespace Rent.API.Controllers.User
         [HttpPost("avatar")]
         public IActionResult SetUserAvatar([FromForm] IFormFile avatar)
         {
-            var userId = GetUserId();
             var filename = avatar.FileName;
             var extension = Path.GetExtension(filename);
             var isExtensionImage = extension == ".jpg" || extension == ".png" || extension == ".jpeg";
@@ -55,6 +55,7 @@ namespace Rent.API.Controllers.User
             {
                 return BadRequest("File extension is not supported");
             }
+            var userId = GetUserId();
             _userDetailsService.SetUserAvatar(userId, extension, avatar.OpenReadStream());
             UserDetail? userDetail = _userDetailsService.GetUserDetail(userId);
             var response = new GetUserDetailResponse(userDetail, _userDetailsService);
