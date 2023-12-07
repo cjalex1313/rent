@@ -16,13 +16,5 @@ export const useUserDetailsStore = defineStore('userDetails', () => {
     userDetails.avatarUrl = details.avatarUrl
   }
 
-  async function saveUserDetails(firstName, lastName) {
-    const data = {
-      firstName: firstName,
-      lastName: lastName
-    }
-    await userDetailApi.setUserDetail(data)
-  }
-
-  return { userDetails, loadUserDetails, saveUserDetails }
+  return { userDetails, loadUserDetails }
 })
