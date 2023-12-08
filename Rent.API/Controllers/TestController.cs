@@ -46,8 +46,9 @@ namespace Rent.API.Controllers
         [AllowAnonymous]
         public IActionResult TestGetFile([FromQuery] string key)
         {
+            string cdn;
 #if DEBUG
-            var cdn = _fileService.GetCDN(key);
+            cdn = _fileService.GetCDN(key);
 #endif
             return Ok(cdn);
         }
