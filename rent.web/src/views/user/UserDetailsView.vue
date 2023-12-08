@@ -113,9 +113,7 @@ const saveDetails = async () => {
       lastName: userDetails.lastName
     }),
     (async () => {
-      alert(0)
       if (!tempFile.value) return
-      alert(1)
       await userDetailApi.setUserAvatar(tempFile.value)
     })()
   ])
