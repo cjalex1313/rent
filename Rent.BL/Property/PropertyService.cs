@@ -54,4 +54,14 @@ public class PropertyService : IPropertyService
         result.Properties = properties;
         return result;
     }
+
+    public Domain.Entities.Properties.Property GetProperty(int id)
+    {
+        var property = _context.Properties.Include(p => p.Images).FirstOrDefault(p => p.Id == id);
+        if (property == null)
+        {
+            throw new PropertyNotFoundException(id);
+        }
+        return property;
+    }
 }

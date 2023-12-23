@@ -5,6 +5,7 @@ using Rent.API.Models.Property;
 using Rent.API.Models.Property.Search;
 using Rent.BL.Property;
 using Rent.Domain.Entities;
+using Rent.Domain.Exceptions.Properties;
 
 namespace Rent.API.Controllers.Properties;
 
@@ -42,6 +43,20 @@ public class PropertyController : BaseController
     {
         var userId = GetUserId();
         _propertyService.DeleteProperty(id, userId);
+        return Ok(new BaseResponse());
+    }
+
+    [HttpPost("{id:int}/add-images")]
+    public ActionResult<BaseResponse> AddPropertyImages([FromRoute] int id, [FromForm] List<IFormFile> images)
+    {
+        var userId = GetUserId();
+        var property = _propertyService.GetProperty(id);
+        if (property.OwnerId != userId)
+        {
+            var userName = GetUsername();
+            throw new UserDoesNotHaveAccessToProperty(userName, id);
+        }
+        throw new NotImplementedException();
         return Ok(new BaseResponse());
     }
 }
