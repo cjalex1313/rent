@@ -1,17 +1,21 @@
 using Microsoft.EntityFrameworkCore;
 using Rent.BL.Property.DTO;
 using Rent.DAL;
+using Rent.Domain.Entities.Properties;
 using Rent.Domain.Exceptions.Properties;
+using Rent.FileManager;
 
 namespace Rent.BL.Property;
 
 public class PropertyService : IPropertyService
 {
     private readonly RentDbContext _context;
+    private readonly IFileManager _fileManager;
 
-    public PropertyService(RentDbContext context)
+    public PropertyService(RentDbContext context, IFileManager fileManager)
     {
         _context = context;
+        _fileManager = fileManager;
     }
 
     public IEnumerable<Domain.Entities.Properties.Property> GetUserProperties(Guid userId)
@@ -63,5 +67,33 @@ public class PropertyService : IPropertyService
             throw new PropertyNotFoundException(id);
         }
         return property;
+    }
+
+    public void AddPropertyImage(int propertyId, string extension, Stream stream)
+    {
+        var propertyImageId = Guid.NewGuid();
+        var key = $"properties/{propertyId}/{propertyImageId}{extension}";
+        _fileManager.UploadFile(key, stream);
+        var propertyImage = new PropertyImage
+        {
+            Id = propertyImageId,
+            PropertyId = propertyId,
+            Extension = extension
+        };
+        _context.PropertyImages.Add(propertyImage);
+        _context.SaveChanges();
+    }
+
+    public IEnumerable<PropertyImage> GetPropertyImages(int propertyId)
+    {
+        var images = _context.PropertyImages.Where(i => i.PropertyId == propertyId).ToList();
+        return images;
+    }
+
+    public string GetPropertyImageUrl(PropertyImage propertyImage)
+    {
+        var key = $"properties/{propertyImage.PropertyId}/{propertyImage.Id}{propertyImage.Extension}";
+        var url = _fileManager.GetFileCDN(key);
+        return url;
     }
 }

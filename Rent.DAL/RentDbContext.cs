@@ -12,6 +12,7 @@ public class RentDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Apartment> Apartments { get; set; }
     public DbSet<House> Houses { get; set; }
     public DbSet<UserDetail> UserDetails { get; set; }
+    public DbSet<PropertyImage> PropertyImages { get; set; }
     public RentDbContext(DbContextOptions<RentDbContext> options) : base(options)
     {
 
