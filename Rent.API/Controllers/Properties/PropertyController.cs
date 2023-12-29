@@ -93,4 +93,18 @@ public class PropertyController : BaseController
         }
         return Ok(new BaseResponse());
     }
+
+    [HttpPatch("{id:int}/set-thumbnail")]
+    public ActionResult<BaseResponse> SetThumbnail([FromRoute] int id, [FromBody] SetThumbnailRequest request)
+    {
+        var userId = GetUserId();
+        var property = _propertyService.GetProperty(id);
+        if (property.OwnerId != userId)
+        {
+            var userName = GetUsername();
+            throw new UserDoesNotHaveAccessToProperty(userName, id);
+        }
+        _propertyService.SetThumbnail(id, request.ImageId);
+        return Ok(new BaseResponse());
+    }
 }

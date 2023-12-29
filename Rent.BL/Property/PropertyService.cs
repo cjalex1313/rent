@@ -61,7 +61,7 @@ public class PropertyService : IPropertyService
 
     public Domain.Entities.Properties.Property GetProperty(int id)
     {
-        var property = _context.Properties.Include(p => p.Images).FirstOrDefault(p => p.Id == id);
+        var property = _context.Properties.Include(p => p.Images).AsNoTracking().FirstOrDefault(p => p.Id == id);
         if (property == null)
         {
             throw new PropertyNotFoundException(id);
@@ -95,5 +95,16 @@ public class PropertyService : IPropertyService
         var key = $"properties/{propertyImage.PropertyId}/{propertyImage.Id}{propertyImage.Extension}";
         var url = _fileManager.GetFileCDN(key);
         return url;
+    }
+
+    public void SetThumbnail(int propertyId, Guid imageId)
+    {
+        var property = _context.Properties.FirstOrDefault(p => p.Id == propertyId);
+        if (property == null)
+        {
+            throw new PropertyNotFoundException(propertyId);
+        }
+        property.ThumnailImageId = imageId;
+        _context.SaveChanges();
     }
 }

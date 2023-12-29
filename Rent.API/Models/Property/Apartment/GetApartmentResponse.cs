@@ -21,7 +21,8 @@ public class GetApartmentResponse : BaseResponse
             Size = apartment.Size,
             Floor = apartment.Floor,
             BuildingMaxFloor = apartment.BuildingMaxFloor,
-            ApartmentNumber = apartment.ApartmentNumber
+            ApartmentNumber = apartment.ApartmentNumber,
+            ThumnailImageId = apartment.ThumnailImageId
         };
     }
 }

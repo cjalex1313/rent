@@ -9,7 +9,10 @@ const propertyApi = {
   deleteProperty: async (propId) => {
     await baseApi.delete(`/Property/${propId}`)
   },
-
+  getPropertyIamges: async (propId) => {
+    const response = await baseApi.get(`/Property/${propId}/images`)
+    return response.data.images
+  },
   search: async (country, city, state, page) => {
     const response = await baseApi.get('/Property/search', {
       params: {

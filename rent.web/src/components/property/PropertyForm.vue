@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4 class="text-xl">Basic property information</h4>
+    <h4 class="text-xl font-bold">Basic property information</h4>
     <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
       <AppInput
         class="sm:col-span-6"
@@ -81,7 +81,7 @@ const v$ = useVuelidate(rules, property)
 const isValid = async () => {
   v$.value.$touch()
   const isValid = await v$.value.$validate()
-  return isValid;
+  return isValid
 }
 
 defineExpose({
