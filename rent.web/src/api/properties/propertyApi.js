@@ -13,6 +13,18 @@ const propertyApi = {
     const response = await baseApi.get(`/Property/${propId}/images`)
     return response.data.images
   },
+  addPropertyImages: async (propertyId, files) => {
+    const formData = new FormData()
+    files.forEach((file) => {
+      formData.append('images', file)
+    })
+    const response = await baseApi.post(`/Property/${propertyId}/add-images`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    return response.success
+  },
   search: async (country, city, state, page) => {
     const response = await baseApi.get('/Property/search', {
       params: {
