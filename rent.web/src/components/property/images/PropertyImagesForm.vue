@@ -4,12 +4,7 @@
     {{ props.propertyId }}
     {{ props.propertyHumbnailId }}
     <div class="flex m-4">
-      <img
-        v-for="image in imagesData"
-        :key="image.id"
-        :src="image.url"
-        class="w-32 h-32 object-cover rounded-md shadow-sm m-4"
-      />
+      <PropertyImageForm v-for="image in imagesData" :key="image.id" :image="image" />
     </div>
     <div class="text-center">
       <button
@@ -25,6 +20,7 @@
 
 <script setup>
 import { defineProps, reactive } from 'vue'
+import PropertyImageForm from './PropertyImageForm.vue'
 import filePrompt from '../../../helpers/filePrompt'
 import propertyApi from '../../../api/properties/propertyApi'
 
