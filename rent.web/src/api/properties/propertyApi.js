@@ -36,6 +36,9 @@ const propertyApi = {
       }
     })
     return response.data
+  },
+  deletePropertyImage: async (propertyId, imageId) => {
+    await baseApi.delete(`/Property/${propertyId}/images/${imageId}`)
   }
 }
 

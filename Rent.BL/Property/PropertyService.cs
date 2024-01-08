@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Rent.BL.Property.DTO;
 using Rent.DAL;
 using Rent.Domain.Entities.Properties;
+using Rent.Domain.Exceptions;
 using Rent.Domain.Exceptions.Properties;
 using Rent.FileManager;
 
@@ -105,6 +106,23 @@ public class PropertyService : IPropertyService
             throw new PropertyNotFoundException(propertyId);
         }
         property.ThumnailImageId = imageId;
+        _context.SaveChanges();
+    }
+
+    public async Task DeletePropertyImage(int id, Guid imageId)
+    {
+        var propertyImage = _context.PropertyImages.FirstOrDefault(i => i.Id == imageId);
+        if (propertyImage == null)
+        {
+            throw new PropertyImageNotFoundException(imageId);
+        }
+        if (propertyImage.PropertyId != id)
+        {
+            throw new BaseException(400, "Image does not belong to property");
+        }
+        var key = $"properties/{id}/{imageId}{propertyImage.Extension}";
+        await _fileManager.DeleteFile(key);
+        _context.PropertyImages.Remove(propertyImage);
         _context.SaveChanges();
     }
 }

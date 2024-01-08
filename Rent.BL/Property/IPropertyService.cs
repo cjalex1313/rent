@@ -13,4 +13,5 @@ public interface IPropertyService
     IEnumerable<PropertyImage> GetPropertyImages(int propertyId);
     string GetPropertyImageUrl(PropertyImage propertyImage);
     void SetThumbnail(int propertyId, Guid imageId);
+    Task DeletePropertyImage(int id, Guid imageId);
 }

@@ -10,5 +10,6 @@ namespace Rent.FileManager
     {
         void UploadFile(string key, Stream data);
         string GetFileCDN(string key);
+        Task DeleteFile(string key);
     }
 }

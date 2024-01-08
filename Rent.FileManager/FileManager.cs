@@ -17,6 +17,17 @@ namespace Rent.FileManager
             _s3Config = s3Config;
         }
 
+        public async Task DeleteFile(string key)
+        {
+            var client = GetAWSClient();
+            var request = new DeleteObjectRequest()
+            {
+                BucketName = _s3Config.BucketName,
+                Key = _s3Config.Prefix + key
+            };
+            await client.DeleteObjectAsync(request);
+        }
+
         public string GetFileCDN(string key)
         {
             var client = GetAWSClient();

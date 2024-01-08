@@ -1,10 +1,14 @@
 <template>
   <div class="my-2">
     <h4 class="text-xl font-bold mb-2">Images</h4>
-    {{ props.propertyId }}
-    {{ props.propertyHumbnailId }}
     <div class="flex m-4">
-      <PropertyImageForm v-for="image in imagesData" :key="image.id" :image="image" />
+      <PropertyImageForm
+        v-for="image in imagesData"
+        @deleted="loadImages"
+        :key="image.id"
+        :image="image"
+        :propertyId="props.propertyId"
+      />
     </div>
     <div class="text-center">
       <button

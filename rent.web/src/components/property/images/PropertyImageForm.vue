@@ -9,6 +9,7 @@
     <PropertyImageModal
       v-if="imageFormData.modalIsOpen"
       @close="imageFormData.modalIsOpen = false"
+      @deleted="emit('deleted')"
       :image="props.image"
       :propertyId="props.propertyId"
     />
@@ -20,6 +21,8 @@ import { defineProps, reactive } from 'vue'
 import PropertyImageModal from './PropertyImageModal.vue'
 
 const props = defineProps(['image', 'propertyId'])
+
+const emit = defineEmits(['deleted'])
 
 const imageFormData = reactive({
   modalIsOpen: false

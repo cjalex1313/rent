@@ -65,6 +65,20 @@ public class PropertyController : BaseController
         return Ok(response);
     }
 
+    [HttpDelete("{id:int}/images/{imageId:Guid}")]
+    public async Task<ActionResult<BaseResponse>> DeletePropertyImage([FromRoute] int id, [FromRoute] Guid imageId)
+    {
+        var userId = GetUserId();
+        var property = _propertyService.GetProperty(id);
+        if (property.OwnerId != userId)
+        {
+            var userName = GetUsername();
+            throw new UserDoesNotHaveAccessToProperty(userName, id);
+        }
+        await _propertyService.DeletePropertyImage(id, imageId);
+        return Ok(new BaseResponse());
+    }
+
     [HttpPost("{id:int}/add-images")]
     public ActionResult<BaseResponse> AddPropertyImages([FromRoute] int id, [FromForm] List<IFormFile> images)
     {
