@@ -12,6 +12,7 @@ public interface IPropertyService
     void AddPropertyImage(int propertyId, string extension, Stream stream);
     IEnumerable<PropertyImage> GetPropertyImages(int propertyId);
     string GetPropertyImageUrl(PropertyImage propertyImage);
-    void SetThumbnail(int propertyId, Guid imageId);
+    void SetThumbnail(int propertyId, Guid? imageId);
     Task DeletePropertyImage(int id, Guid imageId);
+    PropertyImage GetPropertyImage(Guid thumnailImageId);
 }

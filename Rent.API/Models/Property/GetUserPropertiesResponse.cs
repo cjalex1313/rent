@@ -5,12 +5,9 @@ namespace Rent.API.Models.Property;
 public class GetUserPropertiesResponse : BaseResponse
 {
     public IEnumerable<UserPropertyModel> Properties { get; set; }
-    public GetUserPropertiesResponse(IEnumerable<Domain.Entities.Properties.Property> userProperties)
+    public GetUserPropertiesResponse(List<UserPropertyModel> userProperties)
     {
-        Properties = userProperties.Select(up =>
-        {
-            return new UserPropertyModel(up);
-        }).ToList();
+        Properties = userProperties;
     }
 }
 
@@ -33,9 +30,10 @@ public class UserPropertyModel
     public string Number { get; set; } = "";
     public string PostalCode { get; set; } = "";
     public double Size { get; set; }
+    public string? ThumbnailUrl { get; set; }
     public PropertyTypeEnum PropertyType { get; set; }
 
-    public UserPropertyModel(Domain.Entities.Properties.Property property)
+    public UserPropertyModel(Domain.Entities.Properties.Property property, string? thumbnailUrl)
     {
         Id = property.Id;
         OwnerId = property.OwnerId;
@@ -47,6 +45,7 @@ public class UserPropertyModel
         Number = property.Number;
         PostalCode = property.PostalCode;
         Size = property.Size;
+        ThumbnailUrl = thumbnailUrl;
         switch (property)
         {
             case Domain.Entities.Properties.Apartment:

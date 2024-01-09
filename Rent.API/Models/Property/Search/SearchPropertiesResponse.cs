@@ -4,9 +4,9 @@ namespace Rent.API.Models.Property.Search;
 
 public class SearchPropertiesResponse : BaseResponse
 {
-    public SearchPropertiesResponse(IEnumerable<Domain.Entities.Properties.Property> properties, int total)
+    public SearchPropertiesResponse(IEnumerable<UserPropertyModel> properties, int total)
     {
-        Properties = properties.Select(p => new UserPropertyModel(p));
+        Properties = properties;
         Total = total;
     }
 

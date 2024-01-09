@@ -98,7 +98,7 @@ public class PropertyService : IPropertyService
         return url;
     }
 
-    public void SetThumbnail(int propertyId, Guid imageId)
+    public void SetThumbnail(int propertyId, Guid? imageId)
     {
         var property = _context.Properties.FirstOrDefault(p => p.Id == propertyId);
         if (property == null)
@@ -124,5 +124,15 @@ public class PropertyService : IPropertyService
         await _fileManager.DeleteFile(key);
         _context.PropertyImages.Remove(propertyImage);
         _context.SaveChanges();
+    }
+
+    public PropertyImage GetPropertyImage(Guid thumnailImageId)
+    {
+        var image = _context.PropertyImages.AsNoTracking().FirstOrDefault(i => i.Id == thumnailImageId);
+        if (image == null)
+        {
+            throw new PropertyImageNotFoundException(thumnailImageId);
+        }
+        return image;
     }
 }

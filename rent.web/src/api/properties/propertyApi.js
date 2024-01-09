@@ -39,6 +39,11 @@ const propertyApi = {
   },
   deletePropertyImage: async (propertyId, imageId) => {
     await baseApi.delete(`/Property/${propertyId}/images/${imageId}`)
+  },
+  makeThumbnail: async (propertyId, imageId) => {
+    await baseApi.patch(`/Property/${propertyId}/set-thumbnail`, {
+      imageId: imageId
+    })
   }
 }
 

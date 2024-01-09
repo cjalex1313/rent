@@ -6,6 +6,7 @@ using Rent.API.Models.Property.Images;
 using Rent.API.Models.Property.Search;
 using Rent.BL.Property;
 using Rent.Domain.Entities;
+using Rent.Domain.Entities.Properties;
 using Rent.Domain.Exceptions.Properties;
 
 namespace Rent.API.Controllers.Properties;
@@ -27,7 +28,16 @@ public class PropertyController : BaseController
     {
         var userId = GetUserId();
         var userProperties = _propertyService.GetUserProperties(userId);
-        var response = new GetUserPropertiesResponse(userProperties);
+        var response = new GetUserPropertiesResponse(userProperties.Select(up =>
+        {
+            string? thumbnailUrl = null;
+            if (up.ThumnailImageId != null)
+            {
+                PropertyImage thumbnailImage = _propertyService.GetPropertyImage(up.ThumnailImageId.Value);
+                thumbnailUrl = _propertyService.GetPropertyImageUrl(thumbnailImage);
+            }
+            return new UserPropertyModel(up, thumbnailUrl);
+        }).ToList());
         return Ok(response);
     }
 
@@ -35,7 +45,16 @@ public class PropertyController : BaseController
     public ActionResult<SearchPropertiesResponse> Search([FromQuery] SearchPropertiesRequest request)
     {
         var searchResult = _propertyService.Search(request.ToFilters());
-        var result = new SearchPropertiesResponse(searchResult.Properties, searchResult.Total);
+        var result = new SearchPropertiesResponse(searchResult.Properties.Select(p =>
+        {
+            string thumbnailUrl = null;
+            if (p.ThumnailImageId != null)
+            {
+                PropertyImage thumbnailImage = _propertyService.GetPropertyImage(p.ThumnailImageId.Value);
+                thumbnailUrl = _propertyService.GetPropertyImageUrl(thumbnailImage);
+            }
+            return new UserPropertyModel(p, thumbnailUrl);
+        }), searchResult.Total);
         return Ok(result);
     }
 
@@ -74,6 +93,10 @@ public class PropertyController : BaseController
         {
             var userName = GetUsername();
             throw new UserDoesNotHaveAccessToProperty(userName, id);
+        }
+        if (property.ThumnailImageId == imageId)
+        {
+            _propertyService.SetThumbnail(id, null);
         }
         await _propertyService.DeletePropertyImage(id, imageId);
         return Ok(new BaseResponse());
