@@ -19,4 +19,11 @@ public class BaseException : Exception
         ErrorMessage = errorMessage;
         Errors = new List<string>();
     }
+
+    public BaseException(int code, string errorMessage) : base(errorMessage)
+    {
+        StatusCode = code;
+        ErrorMessage = errorMessage;
+        Errors = new List<string>();
+    }
 }

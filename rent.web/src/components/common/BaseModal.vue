@@ -138,13 +138,13 @@ const isMobile = computed(() => !!navigator.userAgent.match(/iphone|android|blac
     overflow: scroll;
   }
   body .modal-backdrop {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     height: auto;
     align-items: baseline;
     overflow: scroll;
-    scroll-behavior:smooth
+    scroll-behavior: smooth;
   }
 }
 </style>

@@ -2,13 +2,13 @@
   <div>
     <PropertyForm :property="house" ref="propertyForm" />
     <div class="mt-6">
-      <h4 class="text-xl">House information</h4>
+      <h4 class="text-xl font-bold">House information</h4>
       <div class="mt-6 grid gap-x-6 grid-cols-1 sm:grid-cols-3">
         <AppNumberInput label="Land size" v-model="house.landSize" :errors="v$.landSize.$errors" />
         <AppNumberInput label="Levels" v-model="house.levels" :errors="v$.levels.$errors" />
       </div>
     </div>
-    <div class="flex justify-end mr-6">
+    <div class="flex justify-center mt-6">
       <button @click="saveHouse" type="button">Save</button>
     </div>
   </div>

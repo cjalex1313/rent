@@ -21,7 +21,8 @@ public class GetHouseResponse : BaseResponse
             PostalCode = house.PostalCode,
             Size = house.Size,
             LandSize = house.LandSize,
-            Levels = house.Levels
+            Levels = house.Levels,
+            ThumnailImageId = house.ThumnailImageId
         };
     }
 }

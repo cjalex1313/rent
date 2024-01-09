@@ -12,4 +12,5 @@ public class PropertyDTO
     public string Number { get; set; } = "";
     public string PostalCode { get; set; } = "";
     public double Size { get; set; }
+    public Guid? ThumnailImageId { get; set; }
 }

@@ -1,14 +1,31 @@
 <template>
-  <div class="flex justify-between p-3 m-2 border border-gray-100 rounded-sm">
-    <div>
-      <h3 class="text-lg">{{ props.property.name }}</h3>
-      <div>{{ propType }}</div>
-      <div>{{ address }}</div>
+  <div class="p-3 m-2 border border-gray-100 rounded-sm">
+    <div class="flex">
+      <div class="min-h-fit min-w-fit h-24 w-24">
+        <img
+          v-if="props.property.thumbnailUrl"
+          :src="props.property.thumbnailUrl"
+          class="h-24 w-24 object-cover rounded-xl shadow-sm"
+        />
+        <img
+          v-else
+          src="@/assets/house-template.png"
+          class="h-24 w-24 object-cover rounded-xl shadow-sm"
+        />
+      </div>
+      <div class="ml-4 grow min-w-min">
+        <h3 class="text-lg">{{ props.property.name }}</h3>
+        <div>{{ propType }}</div>
+        <div>{{ address }}</div>
+      </div>
+      <div class="text-center">
+        <button @click="editProperty" type="button">Edit</button>
+        <button @click="showDeleteModal = true" type="button" class="text-red-500 ml-1">
+          Delete
+        </button>
+      </div>
     </div>
-    <div class="min-w-fit">
-      <button @click="editProperty" type="button">Edit</button>
-      <button @click="showDeleteModal = true" type="button" class=" text-red-500 ml-1">Delete</button>
-    </div>
+
     <DeletePropertyModal
       v-if="showDeleteModal"
       @close="showDeleteModal = false"
@@ -22,7 +39,7 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { propertyEnum, propertyTypes } from '../../data/propertyTypes'
-import DeletePropertyModal from './DeletePropertyModal.vue';
+import DeletePropertyModal from './DeletePropertyModal.vue'
 
 const props = defineProps(['property'])
 const router = useRouter()

@@ -1,24 +1,29 @@
 <template>
-  <div>
-    <PropertyForm :property="apartment" ref="propertyForm" />
-    <div class="mt-6">
-      <h4 class="text-xl">Apartment information</h4>
-      <div class="mt-6 grid gap-x-6 grid-cols-1 sm:grid-cols-3">
-        <AppNumberInput label="Floor" v-model="apartment.floor" :errors="v$.floor.$errors" />
-        <AppNumberInput
-          label="Building max floor"
-          v-model="apartment.buildingMaxFloor"
-          :errors="v$.buildingMaxFloor.$errors"
-        />
-        <AppNumberInput
-          label="Apartment number"
-          v-model="apartment.apartmentNumber"
-          :errors="v$.apartmentNumber.$errors"
-        />
+  <div class="grid grid-cols-1 gap-x-4 lg:grid-cols-2">
+    <div>
+      <PropertyForm :property="apartment" ref="propertyForm" />
+      <div class="mt-6">
+        <h4 class="text-xl font-bold">Apartment information</h4>
+        <div class="mt-6 grid gap-x-6 grid-cols-1 sm:grid-cols-3">
+          <AppNumberInput label="Floor" v-model="apartment.floor" :errors="v$.floor.$errors" />
+          <AppNumberInput
+            label="Building max floor"
+            v-model="apartment.buildingMaxFloor"
+            :errors="v$.buildingMaxFloor.$errors"
+          />
+          <AppNumberInput
+            label="Apartment number"
+            v-model="apartment.apartmentNumber"
+            :errors="v$.apartmentNumber.$errors"
+          />
+        </div>
+      </div>
+      <div class="flex justify-center mt-6">
+        <button @click="saveApartment" type="button">Save</button>
       </div>
     </div>
-    <div class="flex justify-end mr-6 mt-3">
-      <button @click="saveApartment" type="button">Save</button>
+    <div>
+      <PropertyImagesForm :propertyId="apartment.id" :propertyThumbnailId="apartment.thumbnailId" />
     </div>
   </div>
 </template>
@@ -29,6 +34,7 @@ import useVuelidate from '@vuelidate/core'
 import { helpers, required, integer } from '@vuelidate/validators'
 import PropertyForm from '../PropertyForm.vue'
 import AppNumberInput from '../../common/form/AppNumberInput.vue'
+import PropertyImagesForm from '../../property/images/PropertyImagesForm.vue'
 
 const props = defineProps(['apartment'])
 const emit = defineEmits(['saveApartment'])

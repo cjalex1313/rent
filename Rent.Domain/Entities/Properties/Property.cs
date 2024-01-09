@@ -12,4 +12,8 @@ public class Property
     public string Number { get; set; } = "";
     public string PostalCode { get; set; } = "";
     public double Size { get; set; }
+    public Guid? ThumnailImageId { get; set; }
+
+    public virtual IEnumerable<PropertyImage>? Images { get; set; }
+    public virtual PropertyImage? ThumnailImage { get; set; }
 }
